@@ -36,9 +36,6 @@ binder_call(vendor_agmservice_qti, hal_audio_default)
 #Allow for transition from init domain to agmservice
 init_daemon_domain(vendor_agmservice_qti)
 
-# Add hwservice related rules
-hal_attribute_hwservice(hal_audio, vendor_agm_hwservice)
-
 #Allow access to agm device nodes
 allow vendor_agmservice_qti vendor_agm_device:chr_file rw_file_perms;
 
@@ -61,9 +58,6 @@ allow vendor_agmservice_qti vendor_audio_data_file:file create_file_perms;
 
 # agm audio thread needs RT scheduling for LL/ULL audio, allow sys_nice
 allow vendor_agmservice_qti self:global_capability_class_set sys_nice;
-
-#Allow to trigger SSR when unable to communicate with ADSP
-allow vendor_agmservice_qti vendor_sysfs_adsp_ssr:file w_file_perms;
 
 userdebug_or_eng(`
 #Allow for property access

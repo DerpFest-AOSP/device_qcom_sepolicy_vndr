@@ -1,5 +1,5 @@
-# Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
-#
+# Copyright (c) 2021, The Linux Foundation. All rights reserved.
+
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
@@ -25,39 +25,17 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-type vendor_mutualex, domain;
-type vendor_mutualex_exec, exec_type, vendor_file_type, file_type;
-init_daemon_domain(vendor_mutualex)
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
-allow vendor_mutualex self:capability {
-    net_admin
-};
-
-allow vendor_mutualex vendor_mutualex:{
-    netlink_socket
-    qipcrtr_socket
-    netlink_generic_socket
-    netlink_route_socket
-}create_socket_perms_no_ioctl;
-
-allow vendor_mutualex self:udp_socket create_socket_perms;
-
-hal_client_domain(vendor_mutualex,hal_wifi_hostapd)
-hal_client_domain(vendor_mutualex,hal_wifi_supplicant)
-
-# allow mutualex to access wpa_socket
-allow vendor_mutualex vendor_wifi_vendor_data_file:dir r_dir_perms;
-allow vendor_mutualex vendor_wifi_vendor_wpa_socket:sock_file write;
-
-#communicating with wpa supplicant for sending commands/listening to events
-unix_socket_send(vendor_mutualex, wpa, hal_wifi_supplicant)
-allow vendor_mutualex wpa_data_file:dir w_dir_perms;
-allow vendor_mutualex wpa_data_file:sock_file create_file_perms;
-
-#communicating with hostapd for sending commands/listening to events
-allow vendor_mutualex hostapd_data_file:dir rw_dir_perms;
-allow vendor_mutualex hostapd_data_file:sock_file create_file_perms;
-allow vendor_mutualex { hal_wifi_hostapd_default }:unix_dgram_socket sendto;
-
-wakelock_use(vendor_mutualex)
-
+allow hal_graphics_allocator_default vendor_dmabuf_system_heap_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_dmabuf_secure_pixel:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_dmabuf_display_heap_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_dmabuf_secure_cdsp_heap_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_membuf_dev:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_vm_cp_camera_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_vm_cp_camera_preview_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_vm_cp_sec_display_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_vm_cp_cdsp_device:chr_file r_file_perms;
+allow hal_graphics_allocator_default vendor_dmabuf_demura_heap_device:chr_file r_file_perms;
